@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:slack="http://www.mulesoft.org/schema/mule/slack" xmlns:mule="http://www.springframework.org/schema/context"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+        http://www.mulesoft.org/schema/mule/slack http://www.mulesoft.org/schema/mule/slack/current/mule-SlackConnector.xsd">
+
+    <mule:property-placeholder  location="classpath:mule-app.properties" />
+
+    <slack:Token name="token-config" token="${slack.token}" />
+
+    <flow name="dummy">
+        <slack:send-message config-ref="token-config" asUser="#[false]" channelId="${slack.channelId}" iconUrl="#[null]" message="Hey!" username="#[null]"/>
+    </flow>
+
+    <flow name="send-file">
+        <slack:send-file config-ref="token-config" file="#[payload]" channelId="${slack.channelId}"/>
+    </flow>
+
+
+
+</mule>
