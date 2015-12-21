@@ -23,7 +23,7 @@ public class User {
     @Expose
     private String id;
     @Expose
-    private String name;
+    private String user;
     @Expose
     private Boolean deleted;
     @Expose
@@ -86,19 +86,19 @@ public class User {
     /**
      *
      * @return
-     *     The name
+     *     The user
      */
-    public String getName() {
-        return name;
+    public String getUser() {
+        return user;
     }
 
     /**
      *
-     * @param name
-     *     The name
+     * @param user
+     *     The user
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     /**

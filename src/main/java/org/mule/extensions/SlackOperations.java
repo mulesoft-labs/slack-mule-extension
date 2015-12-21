@@ -6,9 +6,10 @@
  */
 package org.mule.extensions;
 
-import org.mule.extension.annotations.Operation;
-import org.mule.extension.annotations.param.Optional;
-import org.mule.extension.annotations.param.UseConfig;
+import org.mule.extension.annotation.api.Operation;
+import org.mule.extension.annotation.api.param.Connection;
+import org.mule.extension.annotation.api.param.Optional;
+import org.mule.extensions.client.SlackClient;
 import org.mule.extensions.client.exceptions.UserNotFoundException;
 import org.mule.extensions.client.model.User;
 import org.mule.extensions.client.model.channel.Channel;
@@ -22,64 +23,69 @@ import java.util.List;
 public class SlackOperations {
 
     @Operation
-    public MessageResponse sendMessage(@UseConfig SlackTokenConfig config, String message, String channelId, String username, String iconUrl, Boolean asUser) {
-        return config.getSlackClient().sendMessage(message, channelId, username, iconUrl, asUser);
+    public MessageResponse sendMessage(@Connection SlackClient client, String message, String channelId, String username, String iconUrl, Boolean asUser) {
+        return client.sendMessage(message, channelId, username, iconUrl, asUser);
     }
-
+    
     @Operation
-    public User getUserInfo(@UseConfig SlackTokenConfig config, String id) {
-        return config.getSlackClient().getUserInfo(id);
+    public User getUserInfo(@Connection SlackClient client, String id) {
+        return client.getUserInfo(id);
     }
-
+    
     @Operation
-    public User getUserInfoByName(@UseConfig SlackTokenConfig config, String username) throws UserNotFoundException {
-        return config.getSlackClient().getUserInfoByName(username);
+    public User getUserInfoByName(@Connection SlackClient client, String username) throws UserNotFoundException
+    {
+        return client.getUserInfoByName(username);
     }
-
     @Operation
-    public List<User> getUserList(@UseConfig SlackTokenConfig config) {
-        return config.getSlackClient().getUserList();
+    public User getUserInfoByNames(@Connection SlackClient client, String username) throws UserNotFoundException {
+        return client.getUserInfoByName(username);
     }
-
+    
     @Operation
-    public List<Channel> getChannelList(@UseConfig SlackTokenConfig config) {
-        return config.getSlackClient().getChannelList();
+    public List<User> getUserList(@Connection SlackClient client) {
+        return client.getUserList();
     }
-
+    
     @Operation
-    public List<Message> getChannelHistory(@UseConfig SlackTokenConfig config, String channelId, @Optional String latestTimestamp, @Optional String oldestTimestamp, String mountOfMessages) {
-        return config.getSlackClient().getChannelHistory(channelId, latestTimestamp, oldestTimestamp, mountOfMessages);
+    public List<Channel> getChannelList(@Connection SlackClient client) {
+        return client.getChannelList();
     }
-
+    
     @Operation
-    public Channel getChannelInfo(@UseConfig SlackTokenConfig config, String channelId) {
-        return config.getSlackClient().getChannelById(channelId);
+    public List<Message> getChannelHistory(@Connection SlackClient client, String channelId, @Optional String latestTimestamp, @Optional String oldestTimestamp, String mountOfMessages) {
+        return client.getChannelHistory(channelId, latestTimestamp, oldestTimestamp, mountOfMessages);
     }
-
-
+    
     @Operation
-    public Channel getChannelByName(@UseConfig SlackTokenConfig config, String channelName) {
-        return config.getSlackClient().getChannelByName(channelName);
+    public Channel getChannelInfo(@Connection SlackClient client, String channelId) {
+        return client.getChannelById(channelId);
     }
-
+    
+    
     @Operation
-    public Channel createChannel(@UseConfig SlackTokenConfig config, String channelName) {
-        return config.getSlackClient().createChannel(channelName);
+    public Channel getChannelByName(@Connection SlackClient client, String channelName) {
+        return client.getChannelByName(channelName);
     }
-
+    
     @Operation
-    public Channel renameChannel(@UseConfig SlackTokenConfig config, String channelId, String channelName) {
-        return config.getSlackClient().renameChannel(channelId, channelName);
+    public Channel createChannel(@Connection SlackClient client, String channelName) {
+        return client.createChannel(channelName);
     }
-
+    
     @Operation
-    public Channel joinChannel(@UseConfig SlackTokenConfig config, String channelName) {
-        return config.getSlackClient().joinChannel(channelName);
+    public Channel renameChannel(@Connection SlackClient client, String channelId, String channelName) {
+        return client.renameChannel(channelId, channelName);
     }
-
+    
     @Operation
-    public FileUploadResponse sendFile(@UseConfig SlackTokenConfig config, String channelId, @Optional String fileName, @Optional String fileType, @Optional String title, @Optional String initialComment, InputStream file) {
-        return config.getSlackClient().sendFile(channelId, fileName, fileType, title, initialComment, file);
+    public Channel joinChannel(@Connection SlackClient client, String channelName) {
+        return client.joinChannel(channelName);
+    }
+    
+    @Operation
+    public FileUploadResponse sendFile(@Connection SlackClient client, String channelId, @Optional String fileName, @Optional String fileType, @Optional String title, @Optional String initialComment, InputStream file) {
+        return client.sendFile(channelId, fileName, fileType, title, initialComment, file);
     }
 
 

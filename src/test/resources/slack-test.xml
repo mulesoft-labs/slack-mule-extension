@@ -9,7 +9,10 @@
 
     <mule:property-placeholder  location="classpath:mule-app.properties" />
 
-    <slack:Token name="token-config" token="${slack.token}" />
+    <slack:token token="${slack.token}"  name="token-config">
+        <slack:connection />
+    </slack:token>
+
 
     <flow name="dummy">
         <slack:send-message config-ref="token-config" asUser="#[false]" channelId="${slack.channelId}" iconUrl="#[null]" message="Hey!" username="#[null]"/>

@@ -7,12 +7,12 @@
 package org.mule.extensions;
 
 
-import org.mule.extension.annotations.Configuration;
-import org.mule.extension.annotations.Parameter;
+import org.mule.extension.annotation.api.Configuration;
+import org.mule.extension.annotation.api.Parameter;
 import org.mule.extensions.client.SlackClient;
 
-@Configuration(name = "Token")
-public class SlackTokenConfig {
+@Configuration(name = "token")
+public class SlackTokenConfig implements SlackConfig {
 
     @Parameter
     private String token;

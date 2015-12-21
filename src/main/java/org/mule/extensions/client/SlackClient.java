@@ -272,7 +272,7 @@ public class SlackClient {
     public User getUserInfoByName(String username) throws UserNotFoundException {
         List<User> list = getUserList();
         for (User user : list) {
-            if (user.getName().equals(username)) {
+            if (user.getUser().equals(username)) {
                 return user;
             }
         }
