@@ -12,8 +12,8 @@ import org.mule.extension.annotation.api.Alias;
 import org.mule.extension.annotation.api.Parameter;
 import org.mule.extensions.client.SlackClient;
 
-@Alias("cached")
-public class SlackConnectionProvider implements ConnectionProvider<SlackConfig, SlackClient> {
+@Alias("pooled")
+public class SlackPooledConnectionProvider implements ConnectionProvider<SlackConfig, SlackClient> {
 
     @Parameter
     public String someValue;
@@ -27,10 +27,17 @@ public class SlackConnectionProvider implements ConnectionProvider<SlackConfig, 
 
     @Override
     public ConnectionValidationResult validate(SlackClient slackClient) {
-        return ConnectionValidationResult.success();
+        System.out.println("Validating connection!");
+        if(slackClient.isConnected()){
+            return ConnectionValidationResult.success();
+        } else {
+            return ConnectionValidationResult.failure("Invalid credentials",ConnectionExceptionCode.INCORRECT_CREDENTIALS,null);
+        }
     }
 
     @Override public ConnectionHandlingStrategy<SlackClient> getHandlingStrategy(ConnectionHandlingStrategyFactory connectionHandlingStrategyFactory) {
-            return connectionHandlingStrategyFactory.cached();
+         return connectionHandlingStrategyFactory.supportsPooling(new PoolingProfile());
     }
+
+
 }

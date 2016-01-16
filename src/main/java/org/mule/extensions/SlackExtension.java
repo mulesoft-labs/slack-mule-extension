@@ -13,9 +13,9 @@ import org.mule.extension.annotation.api.Operations;
 import org.mule.extension.annotation.api.capability.Xml;
 import org.mule.extension.annotation.api.connector.Providers;
 
-@Extension(name = "SlackConnector", description = "Slack Connector")
+@Extension(name = "Slack Connector", description = "Connector which connects to the most popular team communication tool")
 @Operations(SlackOperations.class)
-@Providers({SlackConnectionProvider.class})
+@Providers({SlackConnectionProvider.class,SlackPooledConnectionProvider.class})
 @Configurations({SlackTokenConfig.class})
 @Xml(schemaLocation = "http://www.mulesoft.org/schema/mule/slack", namespace = "slack", schemaVersion = "3.7")
 public class SlackExtension {

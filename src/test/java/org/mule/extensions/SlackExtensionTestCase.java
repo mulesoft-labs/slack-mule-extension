@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.mule.api.MuleEvent;
 import org.mule.extensions.client.model.chat.MessageResponse;
 import org.mule.extensions.client.model.file.FileUploadResponse;
-import org.mule.tck.junit4.ExtensionsFunctionalTestCase;
+import org.mule.functional.junit4.ExtensionFunctionalTestCase;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -18,7 +18,8 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 
-public class SlackExtensionTestCase extends ExtensionsFunctionalTestCase {
+public class SlackExtensionTestCase extends ExtensionFunctionalTestCase
+{
 
     @Override
     protected Class<?>[] getAnnotatedExtensionClasses()
