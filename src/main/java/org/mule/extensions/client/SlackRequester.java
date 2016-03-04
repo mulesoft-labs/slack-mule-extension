@@ -23,9 +23,6 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.InputStream;
 
-/**
- * Created by estebanwasinger on 5/9/15.
- */
 public class SlackRequester {
 
     String token;

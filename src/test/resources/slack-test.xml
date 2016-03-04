@@ -7,20 +7,23 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
         http://www.mulesoft.org/schema/mule/slack http://www.mulesoft.org/schema/mule/slack/current/mule-slack.xsd">
 
-    <beans:property-placeholder  location="classpath:mule-app.properties" />
+    <beans:property-placeholder location="classpath:mule-app.properties"/>
 
-    <slack:token token="${slack.token}"  name="token-config">
-        <slack:cached-connection disableValidation="true" someValue="hola ">
-        </slack:cached-connection>
-    </slack:token>
-
-    <flow name="dummy">
-        <slack:send-message config-ref="token-config" asUser="#[false]" channelId="${slack.channelId}" iconUrl="#[null]" message="Hey!" username="#[null]"/>
-        <slack:send-message config-ref="token-config" asUser="#[false]" channelId="${slack.channelId}" iconUrl="#[null]" message="Hey!" username="#[null]"/>
-    </flow>
+    <slack:config name="token-config">
+        <slack:token-connection token="${slack.token}"/>
+    </slack:config>
 
     <flow name="send-file">
         <slack:send-file config-ref="token-config" file="#[payload]" channelId="${slack.channelId}"/>
+    </flow>
+
+    <flow name="send-message">
+        <slack:send-message message="#[payload]" channelId="${slack.channelId}"/>
+    </flow>
+
+    <flow name="retrieve-events" initialState="stopped">
+        <slack:retrieve-events config-ref="token-config" messages="true" userTyping="true"/>
+        <logger message="#[payload]" level="INFO"/>
     </flow>
 
 </mule>

@@ -6,8 +6,10 @@
  */
 package org.mule.extensions;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.api.MuleEvent;
+import org.mule.construct.Flow;
 import org.mule.extensions.client.model.chat.MessageResponse;
 import org.mule.extensions.client.model.file.FileUploadResponse;
 import org.mule.functional.junit4.ExtensionFunctionalTestCase;
@@ -16,38 +18,49 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
-public class SlackExtensionTestCase extends ExtensionFunctionalTestCase
-{
+public class SlackExtensionTestCase extends ExtensionFunctionalTestCase {
+
+    public static final String TEXT_MESSAGE = "Best connector ever!";
 
     @Override
-    protected Class<?>[] getAnnotatedExtensionClasses()
-    {
-        return new Class<?>[] {SlackExtension.class};
+    protected Class<?>[] getAnnotatedExtensionClasses() {
+        return new Class<?>[] { SlackExtension.class };
     }
 
     @Override
-    protected String getConfigFile()
-    {
+    protected String getConfigFile() {
         return "slack-test.xml";
     }
 
+    @Ignore
     @Test
-    public void testDummy() throws Exception {
-        MuleEvent muleEvent = runFlow("dummy");
+    public void testSource() throws Exception {
+        startFlow("retrieve-events");
+        Thread.sleep(20000);
+    }
+
+    @Test
+    public void sendMessage() throws Exception {
+        final MuleEvent muleEvent = flowRunner("send-message").withPayload(TEXT_MESSAGE).run();
+
         MessageResponse payload = (MessageResponse) muleEvent.getMessage().getPayload();
-        assertEquals("Hey!", payload.getMessage().getText());
+        assertThat(TEXT_MESSAGE, is(payload.getMessage().getText()));
     }
 
     @Test
     public void testSendFile() throws Exception {
-        String text = "Text as inputStream";
-        InputStream stream = new ByteArrayInputStream(text.getBytes(StandardCharsets.UTF_8));
-        MuleEvent muleEvent = runFlow("send-file", stream);
+        InputStream stream = new ByteArrayInputStream(TEXT_MESSAGE.getBytes(StandardCharsets.UTF_8));
+        final MuleEvent muleEvent = flowRunner("send-file").withPayload(stream).run();
+
         FileUploadResponse payload = (FileUploadResponse) muleEvent.getMessage().getPayload();
-        assertEquals("Text as inputStream", payload.getPreview());
+        assertThat(TEXT_MESSAGE, is(payload.getPreview()));
     }
 
+    private void startFlow(String flowName) throws Exception {
+        ((Flow) getFlowConstruct(flowName)).start();
+    }
 
 }

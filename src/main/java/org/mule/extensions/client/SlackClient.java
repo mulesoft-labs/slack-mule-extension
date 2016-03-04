@@ -11,16 +11,13 @@
 
 package org.mule.extensions.client;
 
-/**
- * Created by estebanwasinger on 12/4/14.
- */
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.uri.UriComponent;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.mule.extension.api.runtime.source.SourceContext;
 import org.mule.extensions.client.exceptions.ChannelNotFoundException;
 import org.mule.extensions.client.exceptions.UserNotFoundException;
 import org.mule.extensions.client.model.User;
@@ -32,7 +29,10 @@ import org.mule.extensions.client.model.file.FileUploadResponse;
 import org.mule.extensions.client.model.group.Group;
 import org.mule.extensions.client.model.im.DirectMessageChannel;
 import org.mule.extensions.client.model.im.DirectMessageChannelCreationResponse;
+import org.mule.extensions.client.rtm.EventHandler;
+import org.mule.extensions.client.rtm.SlackMessageHandler;
 
+import javax.websocket.DeploymentException;
 import javax.ws.rs.client.WebTarget;
 import java.io.File;
 import java.io.IOException;
@@ -48,9 +48,6 @@ public class SlackClient {
     private SlackRequester slackRequester;
     private static final Logger logger = Logger.getLogger(SlackClient.class);
 
-//    public String getSelfId() {
-//        return selfId;
-//    }
 
     private String selfId;
 
@@ -594,6 +591,22 @@ public class SlackClient {
 //
 //    }
 
+    //******************
+    // RTM
+    //******************
+
+    public String getWebSockerURI() {
+        WebTarget webTarget = slackRequester.getWebTarget().path(Operations.RTM_START);
+        String s = SlackRequester.sendRequest(webTarget);
+        selfId = new JSONObject(s).getJSONObject("self").getString("id");
+        return new JSONObject(s).getString("url");
+    }
+
+    public void startRealTimeCommunication(SourceContext sourceContext, EventHandler messageHandler) throws DeploymentException, InterruptedException, IOException {
+        SlackMessageHandler slackMessageHandler = new SlackMessageHandler(this.getWebSockerURI());
+        slackMessageHandler.messageHandler = messageHandler;
+        slackMessageHandler.connect(sourceContext);
+    }
 
     //******************
     // Util methods

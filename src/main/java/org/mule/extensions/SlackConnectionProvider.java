@@ -6,31 +6,36 @@
  */
 package org.mule.extensions;
 
-import org.mule.api.config.PoolingProfile;
 import org.mule.api.connection.*;
-import org.mule.extension.annotation.api.Alias;
-import org.mule.extension.annotation.api.Parameter;
+import org.mule.extension.api.annotation.Alias;
+import org.mule.extension.api.annotation.Parameter;
 import org.mule.extensions.client.SlackClient;
 
-@Alias("cached")
-public class SlackConnectionProvider implements ConnectionProvider<SlackConfig, SlackClient> {
+@Alias("token")
+public class SlackConnectionProvider implements ConnectionProvider<SlackExtension, SlackClient> {
 
-    @Parameter
-    public String someValue;
+    @Parameter public String token;
 
-    @Override public SlackClient connect(SlackConfig slackConfig) throws ConnectionException {
-        return slackConfig.getSlackClient();
+    @Override
+    public SlackClient connect(SlackExtension slackExtension) throws ConnectionException {
+        return new SlackClient(token);
     }
 
-    @Override public void disconnect(SlackClient slackClient) {
+    @Override
+    public void disconnect(SlackClient slackClient) {
+        //Nothing to do
     }
 
     @Override
     public ConnectionValidationResult validate(SlackClient slackClient) {
-        return ConnectionValidationResult.success();
+        //TODO Improve error message
+        return slackClient.isConnected() ?
+                ConnectionValidationResult.success() :
+                ConnectionValidationResult.failure("Invalid credentials", ConnectionExceptionCode.INCORRECT_CREDENTIALS, null);
     }
 
-    @Override public ConnectionHandlingStrategy<SlackClient> getHandlingStrategy(ConnectionHandlingStrategyFactory connectionHandlingStrategyFactory) {
-            return connectionHandlingStrategyFactory.cached();
+    @Override
+    public ConnectionHandlingStrategy<SlackClient> getHandlingStrategy(ConnectionHandlingStrategyFactory connectionHandlingStrategyFactory) {
+        return connectionHandlingStrategyFactory.cached();
     }
 }
