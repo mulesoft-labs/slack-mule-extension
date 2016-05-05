@@ -6,10 +6,10 @@
  */
 package org.mule.extensions;
 
-import org.mule.api.connection.*;
-import org.mule.extension.api.annotation.Alias;
-import org.mule.extension.api.annotation.Parameter;
 import org.mule.extensions.client.SlackClient;
+import org.mule.runtime.api.connection.*;
+import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Parameter;
 
 @Alias("token")
 public class SlackConnectionProvider implements ConnectionProvider<SlackExtension, SlackClient> {

@@ -7,17 +7,17 @@
 
 package org.mule.extensions;
 
-import org.mule.extension.api.annotation.Extension;
-import org.mule.extension.api.annotation.Operations;
-import org.mule.extension.api.annotation.Sources;
-import org.mule.extension.api.annotation.capability.Xml;
-import org.mule.extension.api.annotation.connector.Providers;
+import org.mule.runtime.extension.api.annotation.Extension;
+import org.mule.runtime.extension.api.annotation.Operations;
+import org.mule.runtime.extension.api.annotation.Sources;
+import org.mule.runtime.extension.api.annotation.capability.Xml;
+import org.mule.runtime.extension.api.annotation.connector.Providers;
 
 @Extension(name = "Slack Connector", description = "Connector which connects to the most popular team communication tool")
 @Operations(SlackOperations.class)
 @Providers(SlackConnectionProvider.class)
 @Sources({SlackRetrieveEventsSource.class})
-@Xml(schemaLocation = "http://www.mulesoft.org/schema/mule/slack", namespace = "slack", schemaVersion = "3.7")
+@Xml(namespace = "slack")
 public class SlackExtension {
 
 }

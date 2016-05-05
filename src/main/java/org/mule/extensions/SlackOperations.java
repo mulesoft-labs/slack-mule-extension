@@ -6,73 +6,71 @@
  */
 package org.mule.extensions;
 
-import org.mule.extension.api.annotation.param.Connection;
-import org.mule.extension.api.annotation.param.Optional;
 import org.mule.extensions.client.SlackClient;
-import org.mule.extensions.client.exceptions.UserNotFoundException;
-import org.mule.extensions.client.model.User;
-import org.mule.extensions.client.model.channel.Channel;
-import org.mule.extensions.client.model.chat.Message;
-import org.mule.extensions.client.model.chat.MessageResponse;
-import org.mule.extensions.client.model.file.FileUploadResponse;
-
-import java.io.InputStream;
-import java.util.List;
+import org.mule.runtime.extension.api.annotation.param.Connection;
 
 public class SlackOperations {
 
-    public MessageResponse sendMessage(@Connection SlackClient client, String message, String channelId, @Optional String username, @Optional String iconUrl, @Optional(defaultValue = "false") Boolean asUser) {
-        return client.sendMessage(message, channelId, username, iconUrl, asUser);
+    //    @MetadataScope(UserInfoScope.class)
+    //    public MessageResponse sendMessage(@Connection SlackClient client, @MetadataKeyParam String message, String channelId, @Optional String username, @Optional String iconUrl, @Optional(defaultValue = "false") Boolean asUser) {
+    //        return client.sendMessage(message, channelId, username, iconUrl, asUser);
+    //    }
+
+    public void enumOperation(@Connection SlackClient client, Priority priority, Person persoon) {
+
+        System.out.println("hola");
+
     }
 
-    public User getUserInfo(@Connection SlackClient client, String id) {
-        return client.getUserInfo(id);
-    }
-
-    public User getUserInfoByName(@Connection SlackClient client, String username) throws UserNotFoundException {
-        return client.getUserInfoByName(username);
-    }
-
-    public User getUserInfoByNames(@Connection SlackClient client, String username) throws UserNotFoundException {
-        return client.getUserInfoByName(username);
-    }
-
-    public List<User> getUserList(@Connection SlackClient client) {
-        return client.getUserList();
-    }
-
-    public List<Channel> getChannelList(@Connection SlackClient client) {
-        return client.getChannelList();
-    }
-
-    public List<Message> getChannelHistory(@Connection SlackClient client, String channelId, @Optional String latestTimestamp, @Optional String oldestTimestamp,
-            String mountOfMessages) {
-        return client.getChannelHistory(channelId, latestTimestamp, oldestTimestamp, mountOfMessages);
-    }
-
-    public Channel getChannelInfo(@Connection SlackClient client, String channelId) {
-        return client.getChannelById(channelId);
-    }
-
-    public Channel getChannelByName(@Connection SlackClient client, String channelName) {
-        return client.getChannelByName(channelName);
-    }
-
-    public Channel createChannel(@Connection SlackClient client, String channelName) {
-        return client.createChannel(channelName);
-    }
-
-    public Channel renameChannel(@Connection SlackClient client, String channelId, String channelName) {
-        return client.renameChannel(channelId, channelName);
-    }
-
-    public Channel joinChannel(@Connection SlackClient client, String channelName) {
-        return client.joinChannel(channelName);
-    }
-
-    public FileUploadResponse sendFile(@Connection SlackClient client, String channelId, @Optional String fileName, @Optional String fileType, @Optional String title,
-            @Optional String initialComment, InputStream file) {
-        return client.sendFile(channelId, fileName, fileType, title, initialComment, file);
-    }
+    //    public User getUserInfo(@Connection SlackClient client, String id) {
+    //        return client.getUserInfo(id);
+    //    }
+    //
+    //    public User getUserInfoByName(@Connection SlackClient client, String username) throws UserNotFoundException {
+    //        return client.getUserInfoByName(username);
+    //    }
+    //
+    //    @MetadataScope(UserInfoScope.class)
+    //    public User getUserInfoByNames(@Connection SlackClient client, @MetadataKeyParam String username) throws UserNotFoundException {
+    //        return client.getUserInfoByName(username);
+    //    }
+    //
+    //    public List<User> getUserList(@Connection SlackClient client) {
+    //        return client.getUserList();
+    //    }
+    //
+    //    public List<Channel> getChannelList(@Connection SlackClient client) {
+    //        return client.getChannelList();
+    //    }
+    //
+    //    public List<Message> getChannelHistory(@Connection SlackClient client, String channelId, @Optional String latestTimestamp, @Optional String oldestTimestamp,
+    //            String mountOfMessages) {
+    //        return client.getChannelHistory(channelId, latestTimestamp, oldestTimestamp, mountOfMessages);
+    //    }
+    //
+    //    public Channel getChannelInfo(@Connection SlackClient client, String channelId) {
+    //        return client.getChannelById(channelId);
+    //    }
+    //
+    //    public Channel getChannelByName(@Connection SlackClient client, String channelName) {
+    //        return client.getChannelByName(channelName);
+    //    }
+    //
+    //    public Channel createChannel(@Connection SlackClient client, String channelName) {
+    //        return client.createChannel(channelName);
+    //    }
+    //
+    //    public Channel renameChannel(@Connection SlackClient client, String channelId, String channelName) {
+    //        return client.renameChannel(channelId, channelName);
+    //    }
+    //
+    //    public Channel joinChannel(@Connection SlackClient client, String channelName) {
+    //        return client.joinChannel(channelName);
+    //    }
+    //
+    //    public FileUploadResponse sendFile(@Connection SlackClient client, String channelId, @Optional String fileName, @Optional String fileType, @Optional String title,
+    //            @Optional String initialComment, InputStream file) {
+    //        return client.sendFile(channelId, fileName, fileType, title, initialComment, file);
+    //    }
 
 }

@@ -9,14 +9,23 @@ package org.mule.extensions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mule.api.MuleEvent;
+import org.mule.api.metadata.MetadataAware;
+import org.mule.api.metadata.MetadataKey;
+import org.mule.api.metadata.descriptor.OperationMetadataDescriptor;
+import org.mule.api.metadata.resolving.MetadataResult;
+import org.mule.api.processor.MessageProcessor;
+import org.mule.api.source.MessageSource;
 import org.mule.construct.Flow;
 import org.mule.extensions.client.model.chat.MessageResponse;
 import org.mule.extensions.client.model.file.FileUploadResponse;
 import org.mule.functional.junit4.ExtensionFunctionalTestCase;
+import org.mule.metadata.api.model.MetadataType;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -43,11 +52,20 @@ public class SlackExtensionTestCase extends ExtensionFunctionalTestCase {
     }
 
     @Test
-    public void sendMessage() throws Exception {
-        final MuleEvent muleEvent = flowRunner("send-message").withPayload(TEXT_MESSAGE).run();
+    public void testMetadata() throws Exception {
+        final MuleEvent event = getTestEvent("EVENT");
+        final MetadataAware messageSource = (MetadataAware) ((Flow) getFlowConstruct("retrieve-events")).getMessageSource();
 
-        MessageResponse payload = (MessageResponse) muleEvent.getMessage().getPayload();
-        assertThat(TEXT_MESSAGE, is(payload.getMessage().getText()));
+        final MetadataResult<List<MetadataKey>> metadataKeys = messageSource.getMetadataKeys();
+        final MetadataResult<OperationMetadataDescriptor> metadata = messageSource.getMetadata(metadataKeys.get().get(0));
+        System.out.println("hola");
+    }
+
+    @Test
+    public void sendMessage() throws Exception {
+        final MuleEvent muleEvent = flowRunner("enum").withPayload(TEXT_MESSAGE).run();
+        muleEvent.getMessage().getPayload();
+//        assertThat(TEXT_MESSAGE, is(payload.getMessage().getText()));
     }
 
     @Test

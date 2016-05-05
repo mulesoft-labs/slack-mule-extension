@@ -1,13 +1,15 @@
 package org.mule.extensions;
 
-import org.mule.extension.api.annotation.Alias;
-import org.mule.extension.api.annotation.Parameter;
-import org.mule.extension.api.annotation.param.Connection;
-import org.mule.extension.api.annotation.param.Optional;
-import org.mule.extension.api.runtime.source.Source;
 import org.mule.extensions.client.SlackClient;
 import org.mule.extensions.client.rtm.ConfigurableHandler;
 import org.mule.extensions.client.rtm.filter.*;
+import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.metadata.MetadataKeyParam;
+import org.mule.runtime.extension.api.annotation.metadata.MetadataScope;
+import org.mule.runtime.extension.api.annotation.param.Connection;
+import org.mule.runtime.extension.api.annotation.param.Optional;
+import org.mule.runtime.extension.api.runtime.source.Source;
 
 import javax.websocket.DeploymentException;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Alias("RetrieveEvents")
+@MetadataScope(keysResolver = KeysResolver.class, outputResolver = KeysResolver.class)
 public class SlackRetrieveEventsSource extends Source<Map, Serializable> {
 
     public static final String USER_TYPING_EVENT = "user_typing";
@@ -25,7 +28,13 @@ public class SlackRetrieveEventsSource extends Source<Map, Serializable> {
     private static final String FILE_SHARED = "file_shared";
     private static final String FILE_PUBLIC = "file_public";
 
-    @Connection private SlackClient slackClient;
+    @MetadataKeyParam
+    @Optional
+    @Parameter
+    public String key;
+
+    @Connection
+    private SlackClient slackClient;
 
     @Parameter
     @Optional(defaultValue = "false")

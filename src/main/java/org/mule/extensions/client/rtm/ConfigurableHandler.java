@@ -1,11 +1,11 @@
 package org.mule.extensions.client.rtm;
 
 import com.google.gson.Gson;
-import org.mule.api.metadata.DataType;
-import org.mule.api.temporary.MuleMessage;
-import org.mule.extension.api.runtime.source.SourceContext;
 import org.mule.extensions.client.rtm.filter.EventFilter;
 import org.mule.extensions.client.rtm.filter.EventNotifier;
+import org.mule.runtime.api.metadata.DataType;
+import org.mule.runtime.api.temporary.MuleMessage;
+import org.mule.runtime.extension.api.runtime.source.SourceContext;
 
 import java.io.Serializable;
 import java.util.HashMap;

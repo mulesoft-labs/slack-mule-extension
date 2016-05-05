@@ -2,7 +2,7 @@ package org.mule.extensions.client.rtm;
 
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.client.ClientProperties;
-import org.mule.extension.api.runtime.source.SourceContext;
+import org.mule.runtime.extension.api.runtime.source.SourceContext;
 
 import javax.websocket.*;
 import java.io.IOException;

@@ -13,13 +13,19 @@
         <slack:token-connection token="${slack.token}"/>
     </slack:config>
 
-    <flow name="send-file">
-        <slack:send-file config-ref="token-config" file="#[payload]" channelId="${slack.channelId}"/>
-    </flow>
+    <!--<flow name="send-file">-->
+        <!--<slack:send-file config-ref="token-config" file="#[payload]" channelId="${slack.channelId}"/>-->
+    <!--</flow>-->
 
-    <flow name="send-message">
-        <slack:send-message message="#[payload]" channelId="${slack.channelId}"/>
-    </flow>
+    <!--<flow name="enum">-->
+        <!--<slack:enum-operation priority="HTTP" person="hola" protocols="HTTP" persoon="hola">-->
+
+        <!--</slack:enum-operation>-->
+    <!--</flow>-->
+
+    <!--<flow name="metadata">-->
+        <!--<slack:send-message message="STRING" channelId="${slack.channelId}"/>-->
+    <!--</flow>-->
 
     <flow name="retrieve-events" initialState="stopped">
         <slack:retrieve-events config-ref="token-config" messages="true" userTyping="true"/>
