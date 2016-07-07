@@ -6,8 +6,6 @@
  */
 package org.mule.extensions;
 
-import org.mule.extension.api.annotation.param.Connection;
-import org.mule.extension.api.annotation.param.Optional;
 import org.mule.extensions.client.SlackClient;
 import org.mule.extensions.client.exceptions.UserNotFoundException;
 import org.mule.extensions.client.model.User;
@@ -15,6 +13,8 @@ import org.mule.extensions.client.model.channel.Channel;
 import org.mule.extensions.client.model.chat.Message;
 import org.mule.extensions.client.model.chat.MessageResponse;
 import org.mule.extensions.client.model.file.FileUploadResponse;
+import org.mule.runtime.extension.api.annotation.param.Connection;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 
 import java.io.InputStream;
 import java.util.List;

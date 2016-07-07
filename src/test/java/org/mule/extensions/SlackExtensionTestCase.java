@@ -6,20 +6,21 @@
  */
 package org.mule.extensions;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mule.api.MuleEvent;
-import org.mule.construct.Flow;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 import org.mule.extensions.client.model.chat.MessageResponse;
 import org.mule.extensions.client.model.file.FileUploadResponse;
 import org.mule.functional.junit4.ExtensionFunctionalTestCase;
+import org.mule.runtime.api.message.MuleEvent;
+import org.mule.runtime.core.construct.Flow;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import org.junit.Ignore;
+import org.junit.Test;
 
 public class SlackExtensionTestCase extends ExtensionFunctionalTestCase {
 

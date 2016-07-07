@@ -1,11 +1,11 @@
 package org.mule.extensions.client.rtm;
 
-import com.google.gson.Gson;
-import org.mule.api.metadata.DataType;
-import org.mule.api.temporary.MuleMessage;
-import org.mule.extension.api.runtime.source.SourceContext;
 import org.mule.extensions.client.rtm.filter.EventFilter;
 import org.mule.extensions.client.rtm.filter.EventNotifier;
+import org.mule.runtime.core.DefaultMuleMessageBuilder;
+import org.mule.runtime.extension.api.runtime.source.SourceContext;
+
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class ConfigurableHandler implements EventHandler {
             if (shouldBeSent(messageMap, observerList)) {
                 try {
                     //TODO Check horrible cast
-                    sourceContext.getMessageHandler().handle(makeMessage(messageMap));
+                    sourceContext.getMessageHandler().handle(new DefaultMuleMessageBuilder().payload(messageMap).build());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -60,25 +60,25 @@ public class ConfigurableHandler implements EventHandler {
         return false;
     }
 
-    //TODO MALIIIIISIMO
-    private MuleMessage<Map, Serializable> makeMessage(Map value) {
-        return new MuleMessage<Map, Serializable>() {
-
-            @Override
-            public Map getPayload() {
-                return value;
-            }
-
-            @Override
-            public Serializable getAttributes() {
-                return null;
-            }
-
-            @Override
-            public DataType<?> getDataType() {
-                return null;
-            }
-        };
-    }
+    ////TODO MALIIIIISIMO
+    //private MuleMessage<Map, Serializable> makeMessage(Map value) {
+    //    return new MuleMessage<Map, Serializable>() {
+    //
+    //        @Override
+    //        public Map getPayload() {
+    //            return value;
+    //        }
+    //
+    //        @Override
+    //        public Serializable getAttributes() {
+    //            return null;
+    //        }
+    //
+    //        @Override
+    //        public DataType<?> getDataType() {
+    //            return null;
+    //        }
+    //    };
+    //}
 
 }

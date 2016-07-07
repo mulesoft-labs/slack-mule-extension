@@ -1,12 +1,18 @@
 package org.mule.extensions.client.rtm;
 
-import org.glassfish.tyrus.client.ClientManager;
-import org.glassfish.tyrus.client.ClientProperties;
-import org.mule.extension.api.runtime.source.SourceContext;
+import org.mule.runtime.extension.api.runtime.source.SourceContext;
 
-import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+
+import javax.websocket.DeploymentException;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
+import javax.websocket.MessageHandler;
+import javax.websocket.Session;
+
+import org.glassfish.tyrus.client.ClientManager;
+import org.glassfish.tyrus.client.ClientProperties;
 
 public class SlackMessageHandler implements MessageHandler.Whole<String> {
 

@@ -1,23 +1,32 @@
 package org.mule.extensions;
 
-import org.mule.extension.api.annotation.Alias;
-import org.mule.extension.api.annotation.Parameter;
-import org.mule.extension.api.annotation.param.Connection;
-import org.mule.extension.api.annotation.param.Optional;
-import org.mule.extension.api.runtime.source.Source;
+
 import org.mule.extensions.client.SlackClient;
 import org.mule.extensions.client.rtm.ConfigurableHandler;
-import org.mule.extensions.client.rtm.filter.*;
+import org.mule.extensions.client.rtm.filter.EventFilter;
+import org.mule.extensions.client.rtm.filter.EventNotifier;
+import org.mule.extensions.client.rtm.filter.MessagesNotifier;
+import org.mule.extensions.client.rtm.filter.OnlyTypeNotifier;
+import org.mule.extensions.client.rtm.filter.SelfEventsFilter;
+import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Parameter;
+import org.mule.runtime.extension.api.annotation.metadata.MetadataScope;
+import org.mule.runtime.extension.api.annotation.param.Connection;
+import org.mule.runtime.extension.api.annotation.param.Optional;
+import org.mule.runtime.extension.api.runtime.source.Source;
 
-import javax.websocket.DeploymentException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.websocket.DeploymentException;
+
 @Alias("RetrieveEvents")
-public class SlackRetrieveEventsSource extends Source<Map, Serializable> {
+@MetadataScope(outputResolver = RetrieveEventsOutputResolver.class)
+public class SlackRetrieveEventsSource extends Source<Map, Serializable>
+{
 
     public static final String USER_TYPING_EVENT = "user_typing";
     private static final String IM_CREATED = "im_created";
@@ -25,7 +34,8 @@ public class SlackRetrieveEventsSource extends Source<Map, Serializable> {
     private static final String FILE_SHARED = "file_shared";
     private static final String FILE_PUBLIC = "file_public";
 
-    @Connection private SlackClient slackClient;
+    @Connection
+    private SlackClient slackClient;
 
     @Parameter
     @Optional(defaultValue = "false")

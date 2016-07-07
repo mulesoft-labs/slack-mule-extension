@@ -11,13 +11,6 @@
 
 package org.mule.extensions.client;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import org.apache.log4j.Logger;
-import org.glassfish.jersey.uri.UriComponent;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.mule.extension.api.runtime.source.SourceContext;
 import org.mule.extensions.client.exceptions.ChannelNotFoundException;
 import org.mule.extensions.client.exceptions.UserNotFoundException;
 import org.mule.extensions.client.model.User;
@@ -31,15 +24,25 @@ import org.mule.extensions.client.model.im.DirectMessageChannel;
 import org.mule.extensions.client.model.im.DirectMessageChannelCreationResponse;
 import org.mule.extensions.client.rtm.EventHandler;
 import org.mule.extensions.client.rtm.SlackMessageHandler;
+import org.mule.runtime.extension.api.runtime.source.SourceContext;
 
-import javax.websocket.DeploymentException;
-import javax.ws.rs.client.WebTarget;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.websocket.DeploymentException;
+import javax.ws.rs.client.WebTarget;
+
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.uri.UriComponent;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class SlackClient {
 

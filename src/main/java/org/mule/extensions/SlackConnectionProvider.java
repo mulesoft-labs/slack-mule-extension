@@ -6,36 +6,48 @@
  */
 package org.mule.extensions;
 
-import org.mule.api.connection.*;
-import org.mule.extension.api.annotation.Alias;
-import org.mule.extension.api.annotation.Parameter;
 import org.mule.extensions.client.SlackClient;
+import org.mule.runtime.api.connection.ConnectionException;
+import org.mule.runtime.api.connection.ConnectionExceptionCode;
+import org.mule.runtime.api.connection.ConnectionHandlingStrategy;
+import org.mule.runtime.api.connection.ConnectionHandlingStrategyFactory;
+import org.mule.runtime.api.connection.ConnectionProvider;
+import org.mule.runtime.api.connection.ConnectionValidationResult;
+import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Parameter;
 
 @Alias("token")
-public class SlackConnectionProvider implements ConnectionProvider<SlackExtension, SlackClient> {
+public class SlackConnectionProvider implements ConnectionProvider<SlackClient>
+{
 
-    @Parameter public String token;
+    @Parameter
+    public String token;
 
     @Override
-    public SlackClient connect(SlackExtension slackExtension) throws ConnectionException {
+    public SlackClient connect() throws ConnectionException
+    {
         return new SlackClient(token);
     }
 
     @Override
-    public void disconnect(SlackClient slackClient) {
+    public void disconnect(SlackClient slackClient)
+    {
         //Nothing to do
     }
 
     @Override
-    public ConnectionValidationResult validate(SlackClient slackClient) {
+    public ConnectionValidationResult validate(SlackClient slackClient)
+    {
         //TODO Improve error message
         return slackClient.isConnected() ?
-                ConnectionValidationResult.success() :
-                ConnectionValidationResult.failure("Invalid credentials", ConnectionExceptionCode.INCORRECT_CREDENTIALS, null);
+               ConnectionValidationResult.success() :
+               ConnectionValidationResult.failure("Invalid credentials", ConnectionExceptionCode.INCORRECT_CREDENTIALS, null);
     }
 
     @Override
-    public ConnectionHandlingStrategy<SlackClient> getHandlingStrategy(ConnectionHandlingStrategyFactory connectionHandlingStrategyFactory) {
+    public ConnectionHandlingStrategy<SlackClient> getHandlingStrategy(ConnectionHandlingStrategyFactory connectionHandlingStrategyFactory)
+    {
         return connectionHandlingStrategyFactory.cached();
     }
+
 }
