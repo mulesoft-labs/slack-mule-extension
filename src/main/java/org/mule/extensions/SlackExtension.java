@@ -13,11 +13,12 @@ import org.mule.runtime.extension.api.annotation.Sources;
 import org.mule.runtime.extension.api.annotation.capability.Xml;
 import org.mule.runtime.extension.api.annotation.connector.Providers;
 
-@Extension(name = "Slack Connector", description = "Connector which connects to the most popular team communication tool")
+@Extension(name = "Slack Connector", description = "Connector which connects to Slack, the most popular team communication tool")
 @Operations(SlackOperations.class)
 @Providers(SlackConnectionProvider.class)
-@Sources({SlackRetrieveEventsSource.class})
+@Sources(SlackRetrieveEventsSource.class)
 @Xml(namespace = "slack")
-public class SlackExtension {
+public class SlackExtension
+{
 
 }

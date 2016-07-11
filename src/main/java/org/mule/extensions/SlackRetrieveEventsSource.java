@@ -8,6 +8,7 @@ import org.mule.extensions.client.rtm.filter.EventNotifier;
 import org.mule.extensions.client.rtm.filter.MessagesNotifier;
 import org.mule.extensions.client.rtm.filter.OnlyTypeNotifier;
 import org.mule.extensions.client.rtm.filter.SelfEventsFilter;
+import org.mule.runtime.api.message.Attributes;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Parameter;
 import org.mule.runtime.extension.api.annotation.metadata.MetadataScope;
@@ -16,7 +17,6 @@ import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.runtime.source.Source;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,7 @@ import javax.websocket.DeploymentException;
 
 @Alias("RetrieveEvents")
 @MetadataScope(outputResolver = RetrieveEventsOutputResolver.class)
-public class SlackRetrieveEventsSource extends Source<Map, Serializable>
+public class SlackRetrieveEventsSource extends Source<Map, Attributes>
 {
 
     public static final String USER_TYPING_EVENT = "user_typing";
@@ -82,32 +82,39 @@ public class SlackRetrieveEventsSource extends Source<Map, Serializable>
     String notifierClassName;
 
     @Override
-    public void start() {
+    public void start()
+    {
 
         List<EventNotifier> observerList = new ArrayList<>();
         List<EventFilter> eventFilterList = new ArrayList<>();
 
-        if (messages) {
+        if (messages)
+        {
             observerList.add(new MessagesNotifier(directMessages, onlyNewMessages));
         }
 
-        if (userTyping) {
+        if (userTyping)
+        {
             observerList.add(new OnlyTypeNotifier(USER_TYPING_EVENT));
         }
 
-        if (imCreated) {
+        if (imCreated)
+        {
             observerList.add(new OnlyTypeNotifier(IM_CREATED));
         }
 
-        if (fileCreated) {
+        if (fileCreated)
+        {
             observerList.add(new OnlyTypeNotifier(FILE_CREATED));
         }
 
-        if (fileShared) {
+        if (fileShared)
+        {
             observerList.add(new OnlyTypeNotifier(FILE_SHARED));
         }
 
-        if (filePublic) {
+        if (filePublic)
+        {
             observerList.add(new OnlyTypeNotifier(FILE_PUBLIC));
         }
 
@@ -119,20 +126,25 @@ public class SlackRetrieveEventsSource extends Source<Map, Serializable>
         //            observerList.add(getNotifierInstance(notifierClassName));
         //        }
         //
-        if (ignoreSelfEvents) {
+        if (ignoreSelfEvents)
+        {
             eventFilterList.add(new SelfEventsFilter(slackClient.getSelfId()));
         }
 
-        try {
+        try
+        {
             //TODO Review duplicated parameter
             slackClient.startRealTimeCommunication(sourceContext, new ConfigurableHandler(sourceContext, observerList, eventFilterList));
-        } catch (DeploymentException | InterruptedException | IOException e) {
+        }
+        catch (DeploymentException | InterruptedException | IOException e)
+        {
             throw new RuntimeException("Error starting RTM communication", e);
         }
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
         //TODO Review what to do here
         //Don't stop me now...
     }
